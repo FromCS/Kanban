@@ -1,0 +1,39 @@
+<UserControl x:Class="Canvas.Views.ProgressSelectedProjectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Canvas.Views"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid Margin="5" DataContext="{Binding SelectedProject}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Foreground="Azure" Text="{Binding Name}"></TextBlock>
+        <ListBox Grid.Row="1" ItemsSource="{Binding Steps}" MinHeight="200">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" Margin="5" Grid.Column="0" Text="{Binding StepName}"></TextBlock>
+                        <ListBox BorderBrush="Transparent" ItemsSource="{Binding MiniSteps}" Margin="15,5,5,5" Grid.Column="1" MinHeight="100" MinWidth="100">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Caption}" IsChecked="{Binding IsDone, Mode=TwoWay}"></CheckBox>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        
+    </Grid>
+</UserControl>

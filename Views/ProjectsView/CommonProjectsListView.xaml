@@ -1,0 +1,59 @@
+<UserControl x:Class="Canvas.Views.ProjectsView.CommonProjectsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Canvas.Views.ProjectsView"
+             Foreground="Azure"
+             Background="Transparent"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <GroupBox Header="СПИСОК ТЕКУЩИХ ПРОЕКТОВ"
+                  BorderThickness="0.5">
+            <GroupBox.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition MaxHeight="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox Grid.Row="0" Margin="5" ItemsSource="{Binding Projects}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                    <Border BorderThickness="0.5"
+                                            BorderBrush="Black"
+                                            CornerRadius="7"
+                                            Margin="150,0,0,0">
+                                        <Button Background="Transparent"
+                                                Foreground="Peru"
+                                                BorderBrush="Transparent">Изменить</Button>
+                                    </Border>
+                                    
+                                    <Border BorderThickness="0.5"
+                                            BorderBrush="Black"
+                                            CornerRadius="7"
+                                            Margin="10,0,0,0">
+                                        <Button Background="Transparent"
+                                                Foreground="Red"
+                                                BorderBrush="Transparent">Удалить</Button>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+                    
+                    <Border Grid.Row="1" CornerRadius="25" BorderThickness="1" BorderBrush="Aquamarine" Background="LightGreen">
+                        <Button BorderBrush="Transparent" 
+                                Background="Transparent" 
+                                Foreground="Teal" 
+                                Content="НОВЫЙ ПРОЕКТ"
+                                Command="{Binding AddNewProject}"/>
+                    </Border>
+                </Grid>
+            </GroupBox.Content>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -1,0 +1,51 @@
+<UserControl x:Class="Canvas.Views.ProgressProjectsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Canvas.Views"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="300" d:DesignWidth="600">
+    <Grid>
+        <StackPanel>
+            <!-->List headers<!-->            
+            <Grid Margin="5" Width="600">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock TextWrapping="Wrap" Grid.Column="0">Наименование</TextBlock>
+                <TextBlock TextWrapping="Wrap" Grid.Column="1">Прогресс</TextBlock>
+                <TextBlock TextWrapping="Wrap" Grid.Column="2" Margin="20,0,0,0">Текущий этап</TextBlock>
+                <TextBlock TextWrapping="Wrap" Grid.Column="3">Приоритет</TextBlock>
+            </Grid>
+            
+            <!-->Projects list<!-->
+            <ListBox Margin="5" Foreground="Azure" BorderBrush="Azure" Background="Transparent" 
+                     ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}" MaxHeight="250">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" TextWrapping="Wrap" Text="{Binding Path=Name}"></TextBlock>
+                            <TextBlock Grid.Column="1">15%</TextBlock>
+                            <TextBlock MaxWidth="120" TextWrapping="Wrap" Grid.Column="2">Закупка материалов</TextBlock>
+                            <TextBlock Grid.Column="3" Text="{Binding Priority}" Margin="55,0,0,0"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+        </StackPanel>
+        
+    </Grid>
+</UserControl>
