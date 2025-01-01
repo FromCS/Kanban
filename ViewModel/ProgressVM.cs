@@ -34,19 +34,19 @@ public class ProgressVM : INotifyPropertyChanged
             new Project {Name = "Разработка нового продукта", Priority = "Высокий", Steps = new ObservableCollection<Step>
             {
                 new (){StepName = "Закупка сырья", 
-                    MiniSteps = new ObservableCollection<NestedStep>
+                    Steps = new ObservableCollection<Step>
                     {
-                        new (){Caption = "Полимер"},
-                        new (){Caption = "Наполнитель"},
-                        new (){Caption = "Добавка 1"},
-                        new (){Caption = "Добавка 2"},
-                        new (){Caption = "Добавка 3"},
+                        new (){StepName = "Полимер"},
+                        new (){StepName = "Наполнитель"},
+                        new (){StepName = "Добавка 1"},
+                        new (){StepName = "Добавка 2"},
+                        new (){StepName = "Добавка 3"},
                     }}, 
-                new (){StepName = "Разработка рецептуры", MiniSteps = new ObservableCollection<NestedStep>
+                new (){StepName = "Разработка рецептуры", Steps = new ObservableCollection<Step>
                 {
-                    new (){Caption = "Отработка 1"},
-                    new (){Caption = "Отработка 2"},
-                    new (){Caption = "Отработка 3"}
+                    new (){StepName = "Отработка 1"},
+                    new (){StepName = "Отработка 2"},
+                    new (){StepName = "Отработка 3"}
                 }}, 
                 new (){StepName = "Производство материала"}, 
                 new (){StepName = "Отчетные документы"}

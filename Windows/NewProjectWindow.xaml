@@ -51,16 +51,20 @@
                 <TextBlock Text="Шаблон"></TextBlock>
                 <TextBox Margin="0,5,0,0"></TextBox>
                 
-                <TreeView Margin=" 0,10,0,0">
-                    <TreeViewItem Header="LOL">
-                        <TreeViewItem Name="TreeViewItem" Header="1"></TreeViewItem>
-                        <TreeViewItem Header="2"></TreeViewItem>
-                        <TreeViewItem Header="3"></TreeViewItem>
-                    </TreeViewItem>
+                <TreeView Margin=" 0,10,0,0" ItemsSource="{Binding Steps, Mode=TwoWay}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Steps, Mode=TwoWay}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding StepName}"></TextBlock>
+                                <Button Command="{Binding AddNestedStep}" FontSize="10" Margin="10,0,0,0">+</Button>
+                                <Button Command="{Binding RemoveSelf}" FontSize="10" Margin="10,0,0,0">Remove</Button>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
                 </TreeView>
-                <Button Command="{Binding Command}" Margin="10" Content="CLICK ME PLEASE"></Button>
+                <Button Command="{Binding AddStepToTree}" Margin="0,10,0,0">Add new STEP</Button>
             </StackPanel>
-            
         </GroupBox>
+        <Button Command="{Binding AddNewProjectToDb}" Margin="10" Content="CLICK ME PLEASE"></Button>
     </StackPanel>
 </Window>
