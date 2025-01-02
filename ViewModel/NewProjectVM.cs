@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using Canvas.Database;
 using Canvas.Model;
 using Canvas.Model.ProjectModel;
@@ -18,6 +20,39 @@ public class NewProjectVM : INotifyPropertyChanged
     private ObservableCollection<Step> _steps = new ObservableCollection<Step>();
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
+    private RelayCommand getFlatLegend;
+
+
+    public RelayCommand GetFlatLegend
+    {
+        get
+        {
+            return getFlatLegend ??= new RelayCommand(obj =>
+            {
+                try
+                {
+                    var coll = GetFlatSteps(Steps);
+                    coll.ToList().ForEach(step => MessageBox.Show(step.StepName));
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            });
+        }
+    }
+    private ObservableCollection<Step> GetFlatSteps(ObservableCollection<Step> steps)
+    {
+        ObservableCollection<Step> flatSteps = new ObservableCollection<Step>();
+        if (steps.Count < 1) return flatSteps;
+        foreach (var currentStep in steps)
+        {
+            flatSteps.Add(currentStep);
+            var nestedSteps = GetFlatSteps(currentStep.Steps);
+            nestedSteps.ToList().ForEach(nestedStep => flatSteps.Add(nestedStep));
+        }    
+        return flatSteps;
+    }
 
     public RelayCommand AddStepToTree
     {
@@ -25,7 +60,7 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             return addStepToTree ??= new RelayCommand(obj =>
             {
-                Steps.Add(new Step() {StepName = "NEW STEP", ParentSteps = Steps});
+                Steps.Add(new Step() {StepName = "NEW STEP", ParentSteps = Steps, ParentId = null, ID = 1});
             });
         }
     }

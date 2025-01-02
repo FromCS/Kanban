@@ -51,13 +51,18 @@
                 <TextBlock Text="Шаблон"></TextBlock>
                 <TextBox Margin="0,5,0,0"></TextBox>
                 
-                <TreeView Margin=" 0,10,0,0" ItemsSource="{Binding Steps, Mode=TwoWay}">
+                <TreeView Margin=" 0,10,0,0"
+                          ItemsSource="{Binding Steps, Mode=TwoWay}"
+                          Height="100">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Steps, Mode=TwoWay}">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding StepName}"></TextBlock>
+                                <TextBox Text="{Binding StepName}"
+                                         Margin="0,5,0,0"
+                                         Name="CurrentStep"></TextBox>
                                 <Button Command="{Binding AddNestedStep}" FontSize="10" Margin="10,0,0,0">+</Button>
                                 <Button Command="{Binding RemoveSelf}" FontSize="10" Margin="10,0,0,0">Remove</Button>
+                                <Button Command="{Binding ChangeStepName}" CommandParameter="{Binding ElementName=CurrentStep}" FontSize="10" Margin="10,0,0,0">Change</Button>
                             </StackPanel>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Canvas.Model;
 
@@ -11,10 +13,24 @@ public class Step : INotifyPropertyChanged
 {
     private string stepName;
     private ObservableCollection<Step> miniSteps = new ObservableCollection<Step>();
+    private ObservableCollection<Step> parentSteps;
+    private int? parentID;
+    private int id;
     private RelayCommand addNestedStep;
     private RelayCommand removeSelf;
-    private ObservableCollection<Step> parentSteps;
+    private RelayCommand changeStepName;
 
+    public RelayCommand ChangeStepName
+    {
+        get
+        {
+            return changeStepName ??= new RelayCommand(obj =>
+            {
+                var textbox = obj as TextBox;
+                textbox.IsEnabled = false;
+            });
+        }
+    }
     public string StepName
     {
         get => stepName;
@@ -43,7 +59,24 @@ public class Step : INotifyPropertyChanged
             OnPropertyChanged("parentSteps");
         }
     }
-
+    public int? ParentId
+    {
+        get => parentID;
+        set
+        {
+            parentID = value;
+            OnPropertyChanged("parentID");
+        }
+    }
+    public int ID
+    {
+        get => id;
+        set
+        {
+            id = value;
+            OnPropertyChanged("id");
+        }
+    }
     public RelayCommand AddNestedStep
     {
         get
@@ -52,7 +85,7 @@ public class Step : INotifyPropertyChanged
             {
                 try
                 {
-                    Steps.Add(new Step(){stepName = "NEW ELEMENT", ParentSteps = this.Steps});
+                    Steps.Add(new Step(){stepName = "NEW ELEMENT", ParentSteps = this.Steps, ParentId = ID, id = ID + 1});
                 }
                 catch (Exception e)
                 {
