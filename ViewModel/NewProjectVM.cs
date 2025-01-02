@@ -109,17 +109,13 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             return addNewProjectToDb ??= new RelayCommand(obj =>
             {
-                try
-                {
-                    var currentProject = new Project()
-                        { Name = ProjectName, WorkCategory = WorkCategory, Priority = Priority };
-                    MainDatabase.AddNewProject(currentProject);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-
-                }
+                var currentProject = new Project()
+                    { Name = ProjectName, WorkCategory = WorkCategory, Priority = Priority };
+                var rawLegend = Steps;
+                Utils.SetupCorrectID(ref rawLegend);
+                var legend = GetFlatSteps(rawLegend);
+                MainDatabase.AddNewProject(currentProject);
+                MainDatabase.AddProjectLegendTable(projectName, legend);
             });
         }
     }
