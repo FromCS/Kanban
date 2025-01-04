@@ -13,6 +13,15 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Foreground="Azure" Text="{Binding Name}"></TextBlock>
+        
+        <TreeView Grid.Row="1" ItemsSource="{Binding Steps}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Steps}">
+                    <TextBlock Text="{Binding StepName}"></TextBlock>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <!-->
         <ListBox Grid.Row="1" ItemsSource="{Binding Steps}" MinHeight="200">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -33,7 +42,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        <!-->
         
     </Grid>
 </UserControl>
