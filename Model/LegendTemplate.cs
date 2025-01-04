@@ -7,26 +7,26 @@ namespace Canvas.Model;
 
 public class TemplateStepsCategory : INotifyPropertyChanged
 {
-    private string categoryName;
-    private ObservableCollection<Step> categSteps;
+    private string legendName;
+    private ObservableCollection<Step> legend;
 
-    public string CategoryName
+    public string LegendName
     {
-        get => categoryName;
+        get => legendName;
         set
         {
-            categoryName = value;
-            OnPropertyChanged("categoryName");
+            legendName = value;
+            OnPropertyChanged("legendName");
         }
     }
 
-    public ObservableCollection<Step> CategSteps
+    public ObservableCollection<Step> Legend
     {
-        get => categSteps;
+        get => legend;
         set
         {
-            categSteps = value;
-            OnPropertyChanged("categSteps");
+            legend = value;
+            OnPropertyChanged("legend");
         }
     }
     public event PropertyChangedEventHandler? PropertyChanged;

@@ -29,7 +29,6 @@
                 
                 <TextBlock Margin="0,5,0,0" Text="Приоритет"></TextBlock>
                 <ComboBox SelectedItem="{Binding Priority, Mode=TwoWay}" Margin="0,5,0,0">
-                    <ComboBoxItem>Отложенный</ComboBoxItem>
                     <ComboBoxItem>Низкий</ComboBoxItem>
                     <ComboBoxItem>Средний</ComboBoxItem>
                     <ComboBoxItem>Высокий</ComboBoxItem>
