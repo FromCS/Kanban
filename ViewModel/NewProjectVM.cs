@@ -31,7 +31,7 @@ public class NewProjectVM : INotifyPropertyChanged
             {
                 try
                 {
-                    var coll = GetFlatSteps(Steps);
+                    var coll = Utils.GetFlatSteps(Steps);
                     coll.ToList().ForEach(step => MessageBox.Show(step.StepName));
                 }
                 catch (Exception e)
@@ -41,18 +41,7 @@ public class NewProjectVM : INotifyPropertyChanged
             });
         }
     }
-    private ObservableCollection<Step> GetFlatSteps(ObservableCollection<Step> steps)
-    {
-        ObservableCollection<Step> flatSteps = new ObservableCollection<Step>();
-        if (steps.Count < 1) return flatSteps;
-        foreach (var currentStep in steps)
-        {
-            flatSteps.Add(currentStep);
-            var nestedSteps = GetFlatSteps(currentStep.Steps);
-            nestedSteps.ToList().ForEach(nestedStep => flatSteps.Add(nestedStep));
-        }    
-        return flatSteps;
-    }
+    
 
     public RelayCommand AddStepToTree
     {
@@ -113,7 +102,7 @@ public class NewProjectVM : INotifyPropertyChanged
                     { Name = ProjectName, WorkCategory = WorkCategory, Priority = Priority };
                 var rawLegend = Steps;
                 Utils.SetupCorrectID(ref rawLegend);
-                var legend = GetFlatSteps(rawLegend);
+                var legend = Utils.GetFlatSteps(rawLegend);
                 MainDatabase.AddNewProject(currentProject);
                 MainDatabase.AddProjectLegendTable(projectName, legend);
             });

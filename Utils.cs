@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using Canvas.Model;
 
@@ -38,5 +39,18 @@ public static class Utils
         {
             MessageBox.Show(e.ToString());
         }
+    }
+    
+    public static ObservableCollection<Step> GetFlatSteps(ObservableCollection<Step> steps)
+    {
+        ObservableCollection<Step> flatSteps = new ObservableCollection<Step>();
+        if (steps.Count < 1) return flatSteps;
+        foreach (var currentStep in steps)
+        {
+            flatSteps.Add(currentStep);
+            var nestedSteps = GetFlatSteps(currentStep.Steps);
+            nestedSteps.ToList().ForEach(nestedStep => flatSteps.Add(nestedStep));
+        }    
+        return flatSteps;
     }
 }
