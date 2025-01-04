@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Canvas.Database;
 
 namespace Canvas.Model.ProjectModel;
 
@@ -33,7 +34,11 @@ public class Project : IProject
     
     public ObservableCollection<Step> Steps
     {
-        get => steps;
+        get
+        {
+            steps = MainDatabase.GetProjectLegend(name);
+            return steps;
+        } 
         set
         {
             steps = value;
