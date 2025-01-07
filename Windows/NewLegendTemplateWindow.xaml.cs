@@ -2,9 +2,9 @@
 
 namespace Canvas.Windows;
 
-public partial class NewStepsTemplateWindow : Window
+public partial class NewLegendTemplateWindow : Window
 {
-    public NewStepsTemplateWindow()
+    public NewLegendTemplateWindow()
     {
         InitializeComponent();
     }
