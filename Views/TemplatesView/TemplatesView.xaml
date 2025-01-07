@@ -31,7 +31,8 @@
                         <Button BorderBrush="Transparent" 
                                 Background="Transparent" 
                                 Foreground="DarkMagenta" 
-                                Content="НОВЫЙ ШАБЛОН"/>
+                                Content="НОВЫЙ ШАБЛОН"
+                                Command="{Binding OpenNewTemplateWindow}"/>
                     </Border>
                 </Grid>
                 
