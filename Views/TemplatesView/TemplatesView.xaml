@@ -20,7 +20,7 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="10">
-                                    <TextBlock Text="{Binding CategoryName}"
+                                    <TextBlock Text="{Binding LegendName}"
                                                MaxWidth="400"
                                                TextWrapping="Wrap"></TextBlock>
                                 </StackPanel>
