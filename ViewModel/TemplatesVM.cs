@@ -2,16 +2,19 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Canvas.Database;
 using Canvas.Model;
 using Canvas.Model.ProjectModel;
+using Canvas.Windows;
 
 namespace Canvas.ViewModel;
 
 public class TemplatesVM : INotifyPropertyChanged
 {
-    private ObservableCollection<TemplateStepsCategory> templates = null!;
+    private ObservableCollection<LegendTemplate> templates = null!;
+    private RelayCommand openNewTemplateWindow;
 
-    public ObservableCollection<TemplateStepsCategory> Templates
+    public ObservableCollection<LegendTemplate> Templates
     {
         get => templates;
         set
@@ -21,14 +24,26 @@ public class TemplatesVM : INotifyPropertyChanged
         }
     }
 
+    public RelayCommand OpenNewTemplateWindow
+    {
+        get
+        {
+            return openNewTemplateWindow ??= new RelayCommand(obj =>
+            {
+                var window = new NewStepsTemplateWindow
+                {
+                    DataContext = new NewStepTemplateVM()
+                };
+                window.ShowDialog();
+            });
+        }
+    }
+
     public TemplatesVM()
     {
-        Templates = new ObservableCollection<TemplateStepsCategory>
-        {
-            new TemplateStepsCategory() {CategoryName = "Постановка на производство малотоннажного продукта"},
-            new () {CategoryName = "Разработка рецептуры с нуля"},
-            new () {CategoryName = "Оформление коммерческого договора"}
-        };
+        var templatesFromDb = new ObservableCollection<LegendTemplate>();
+        TemplatesDatabase.GetLegendTemplates(ref templatesFromDb);
+        Templates = templatesFromDb;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
