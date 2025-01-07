@@ -47,6 +47,10 @@ public static class UtilsDatabase
             {
                 Step nestedStep = FindStepByID(treeLegend, pair.Key);
                 nestedStep.Steps = pair.Value;
+                nestedStep.Steps.ToList().ForEach(step =>
+                {
+                    step.ParentSteps = nestedStep.Steps;
+                });
             }
         }
         return treeLegend;
