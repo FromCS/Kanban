@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace Canvas.Model;
 
-public class TemplateStepsCategory : INotifyPropertyChanged
+public class LegendTemplate : INotifyPropertyChanged
 {
     private string legendName;
     private ObservableCollection<Step> legend;
