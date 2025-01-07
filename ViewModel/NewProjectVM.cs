@@ -21,6 +21,8 @@ public class NewProjectVM : INotifyPropertyChanged
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
     private RelayCommand getFlatLegend;
+    private RelayCommand templateSelectionChanged;
+    private ObservableCollection<IProject> _projects;
 
 
     public RelayCommand GetFlatLegend
@@ -109,6 +111,10 @@ public class NewProjectVM : INotifyPropertyChanged
         }
     }
 
+    public NewProjectVM(ObservableCollection<IProject> projectsList)
+    {
+        _projects = projectsList;
+    }
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -33,7 +33,7 @@ public class ProjectsVM : INotifyPropertyChanged
             {
                 var window = new NewProjectWindow
                 {
-                    DataContext = new NewProjectVM()
+                    DataContext = new NewProjectVM(Projects)
                 };
                 window.Show();
             });
