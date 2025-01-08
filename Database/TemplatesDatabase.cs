@@ -14,7 +14,7 @@ public static class TemplatesDatabase
     private static SqliteConnection _connection = new SqliteConnection($@"Data Source={_filepath}");
     private static void CreateLegendTemplateTable(string legendTableName)
     {
-        string sqlRequest = $"CREATE TABLE '{legendTableName}' (ID INTEGER, Наименование_шага TEXT, parentID INTEGER)";
+        string sqlRequest = $"CREATE TABLE '{legendTableName}' (ID INTEGER, Наименование_шага TEXT, parentID INTEGER, isDone INTEGER)";
         using var command = new SqliteCommand(sqlRequest, _connection);
         command.ExecuteNonQuery();
     }
@@ -43,11 +43,12 @@ public static class TemplatesDatabase
         CreateLegendTemplateTable(legendName);
         legend.ToList().ForEach(step =>
         {
-            string sqlRequest = $"INSERT INTO '{legendName}' (ID, Наименование_шага, parentID) VALUES (@id, @Name, @parentID)";
+            string sqlRequest = $"INSERT INTO '{legendName}' (ID, Наименование_шага, parentID, isDone) VALUES (@id, @Name, @parentID, @isDone)";
             using var command = new SqliteCommand(sqlRequest, _connection);
             command.Parameters.AddWithValue("@id", step.ID);
             command.Parameters.AddWithValue("@Name", step.StepName);
             command.Parameters.AddWithValue("@parentID", step.ParentId ?? 0);
+            command.Parameters.AddWithValue("@isDone", 0);
             command.ExecuteNonQuery();
         });
     }
