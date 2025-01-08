@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Canvas.Database;
 using Canvas.Model;
 using Canvas.Model.ProjectModel;
@@ -18,10 +19,11 @@ public class NewProjectVM : INotifyPropertyChanged
     private string workCategory = null!;
     private string priority = null!;
     private ObservableCollection<Step> _legend = new ObservableCollection<Step>();
+    private ObservableCollection<LegendTemplate> _templates = new ObservableCollection<LegendTemplate>();
+    private LegendTemplate selectedTemplate;
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
     private RelayCommand getFlatLegend;
-    private RelayCommand templateSelectionChanged;
     private ObservableCollection<IProject> _projects;
 
 
@@ -92,6 +94,49 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             _legend = value;
             OnPropertyChanged("_legend");
+        }
+    }
+
+    public ObservableCollection<LegendTemplate> Templates
+    {
+        get
+        {
+            var databaseTemplates = new ObservableCollection<LegendTemplate>() { new LegendTemplate() {LegendName = "--Без шаблона--", Legend = new ObservableCollection<Step>()} };
+            TemplatesDatabase.GetLegendTemplates(ref databaseTemplates);
+            return databaseTemplates;
+        }
+        set
+        {
+            _templates = value;
+            OnPropertyChanged("_templates");
+        }
+    }
+
+    public LegendTemplate SelectedTemplate
+    {
+        get => selectedTemplate;
+        set
+        {
+            LegendTemplate origValue = selectedTemplate;
+            selectedTemplate = value;
+            if (MessageBox.Show(
+                    "При изменении шаблона текущая легенда будет аннулирована. Вы уверены, что хотите использовать другой шаблон?", "Подтверждение", MessageBoxButton.YesNo) ==
+                MessageBoxResult.No)
+            {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    selectedTemplate = origValue;
+                    OnPropertyChanged("selectedTemplate");
+                }), DispatcherPriority.ContextIdle, null);
+                return;
+            }
+            Legend.Clear();
+            foreach (var step in value.Legend)
+            {
+                step.ParentSteps = Legend;
+                Legend.Add(step);
+            }
+            OnPropertyChanged("selectedTemplate");
         }
     }
     public RelayCommand AddNewProjectToDb
