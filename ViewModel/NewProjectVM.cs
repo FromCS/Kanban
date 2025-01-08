@@ -151,6 +151,7 @@ public class NewProjectVM : INotifyPropertyChanged
                 Utils.SetupCorrectID(ref rawLegend);
                 var legend = Utils.GetFlatSteps(rawLegend);
                 MainDatabase.AddNewProject(currentProject);
+                _projects.Add(currentProject);
                 MainDatabase.AddProjectLegendTable(projectName, legend);
             });
         }
