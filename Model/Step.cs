@@ -16,6 +16,8 @@ public class Step : INotifyPropertyChanged
     private ObservableCollection<Step> parentSteps;
     private int? parentID;
     private int id;
+    private bool isDone;
+    private RelayCommand setIsDone;
     private RelayCommand addNestedStep;
     private RelayCommand removeSelf;
     private RelayCommand changeStepName;
@@ -76,6 +78,24 @@ public class Step : INotifyPropertyChanged
             id = value;
             OnPropertyChanged("id");
         }
+    }
+    public bool IsDone
+    {
+        get => isDone;
+        set
+        {
+            isDone = value;
+            OnPropertyChanged("isDone");
+        }
+    }
+    public RelayCommand SetIsDone
+    {
+        get => setIsDone ??= new RelayCommand(obj =>
+        {
+            MessageBox.Show("kek");
+            int step = (int)obj;
+            MessageBox.Show(step.ToString());
+        });
     }
     public RelayCommand AddNestedStep
     {
