@@ -17,7 +17,7 @@ public class NewProjectVM : INotifyPropertyChanged
     private string projectName = null!;
     private string workCategory = null!;
     private string priority = null!;
-    private ObservableCollection<Step> _steps = new ObservableCollection<Step>();
+    private ObservableCollection<Step> _legend = new ObservableCollection<Step>();
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
     private RelayCommand getFlatLegend;
@@ -33,7 +33,7 @@ public class NewProjectVM : INotifyPropertyChanged
             {
                 try
                 {
-                    var coll = Utils.GetFlatSteps(Steps);
+                    var coll = Utils.GetFlatSteps(Legend);
                     coll.ToList().ForEach(step => MessageBox.Show(step.StepName));
                 }
                 catch (Exception e)
@@ -51,7 +51,7 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             return addStepToTree ??= new RelayCommand(obj =>
             {
-                Steps.Add(new Step() {StepName = "NEW STEP", ParentSteps = Steps, ParentId = null, ID = 1});
+                Legend.Add(new Step() {StepName = "NEW STEP", ParentSteps = Legend, ParentId = null, ID = 1});
             });
         }
     }
@@ -85,13 +85,13 @@ public class NewProjectVM : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<Step> Steps
+    public ObservableCollection<Step> Legend
     {
-        get => _steps;
+        get => _legend;
         set
         {
-            _steps = value;
-            OnPropertyChanged("_projects");
+            _legend = value;
+            OnPropertyChanged("_legend");
         }
     }
     public RelayCommand AddNewProjectToDb
@@ -102,7 +102,7 @@ public class NewProjectVM : INotifyPropertyChanged
             {
                 var currentProject = new Project()
                     { Name = ProjectName, WorkCategory = WorkCategory, Priority = Priority };
-                var rawLegend = Steps;
+                var rawLegend = Legend;
                 Utils.SetupCorrectID(ref rawLegend);
                 var legend = Utils.GetFlatSteps(rawLegend);
                 MainDatabase.AddNewProject(currentProject);
