@@ -30,9 +30,9 @@ public class TemplatesVM : INotifyPropertyChanged
         {
             return openNewTemplateWindow ??= new RelayCommand(obj =>
             {
-                var window = new NewStepsTemplateWindow
+                var window = new NewLegendTemplateWindow()
                 {
-                    DataContext = new NewStepTemplateVM()
+                    DataContext = new NewLegendTemplateVM()
                 };
                 window.ShowDialog();
             });
