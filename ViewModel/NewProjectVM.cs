@@ -53,7 +53,7 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             return addStepToTree ??= new RelayCommand(obj =>
             {
-                Legend.Add(new Step() {StepName = "NEW STEP", ParentSteps = Legend, ParentId = null, ID = 1});
+                Legend.Add(new Step() {StepName = "NEW STEP", ParentSteps = Legend, ParentId = null, ID = 1, IsDone = false});
             });
         }
     }
@@ -161,6 +161,17 @@ public class NewProjectVM : INotifyPropertyChanged
     {
         _projects = projectsList;
     }
+    
+    // init for changes
+    public NewProjectVM(ObservableCollection<IProject> projectsList, IProject project)
+    {
+        _projects = projectsList;
+        ProjectName = project.Name;
+        WorkCategory = project.WorkCategory;
+        Legend = MainDatabase.GetProjectLegend(project.Name);
+        Priority = project.Priority;
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

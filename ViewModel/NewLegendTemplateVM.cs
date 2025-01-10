@@ -41,7 +41,7 @@ public class NewLegendTemplateVM : INotifyPropertyChanged
         {
             return addStepToTree ??= new RelayCommand(obj =>
             {
-                Legend.Add(new Step() {StepName = "NEW STEP", ParentSteps = Legend, ParentId = null, ID = 1});
+                Legend.Add(new Step() {StepName = "NEW STEP", ParentSteps = Legend, ParentId = null, ID = 1, IsDone = false});
             });
         }
     }

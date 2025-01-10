@@ -105,7 +105,7 @@ public class Step : INotifyPropertyChanged
             {
                 try
                 {
-                    Steps.Add(new Step(){stepName = "NEW ELEMENT", ParentSteps = this.Steps, ParentId = ID, id = ID + 1});
+                    Steps.Add(new Step(){stepName = "NEW ELEMENT", ParentSteps = this.Steps, ParentId = ID, id = ID + 1, isDone = false});
                 }
                 catch (Exception e)
                 {
