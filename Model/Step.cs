@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using Canvas.Database;
+using Canvas.Model.ProjectModel;
 
 namespace Canvas.Model;
 
@@ -92,9 +94,8 @@ public class Step : INotifyPropertyChanged
     {
         get => setIsDone ??= new RelayCommand(obj =>
         {
-            MessageBox.Show("kek");
-            int step = (int)obj;
-            MessageBox.Show(step.ToString());
+            IProject? project = (IProject)(obj as Grid)!.DataContext;
+            MainDatabase.InsertIsDoneForLegendStepByID(project.Name, this.ID, IsDone);
         });
     }
     public RelayCommand AddNestedStep

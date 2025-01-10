@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              Background="Transparent"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="5" DataContext="{Binding SelectedProject}">
+    <Grid Name="Container" Margin="5" DataContext="{Binding SelectedProject}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -17,7 +17,10 @@
         <TreeView Grid.Row="1" ItemsSource="{Binding Steps}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Steps}">
-                    <TextBlock Text="{Binding StepName}"></TextBlock>
+                    <CheckBox Content="{Binding StepName}"
+                              IsChecked="{Binding IsDone, Mode=TwoWay}"
+                              Command="{Binding SetIsDone}"
+                              CommandParameter="{Binding ElementName=Container}"/>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

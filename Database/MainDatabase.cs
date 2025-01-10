@@ -92,6 +92,25 @@ public static class MainDatabase
         return result;
     }
 
+    public static void InsertIsDoneForLegendStepByID(string projectName, int id,  bool isDone)
+    {
+        try
+        {
+            _connection.Open();
+            string legendTableName = projectName + "Legend";
+            int intBool = isDone ? 1 : 0;
+            string query = $"UPDATE '{legendTableName}' SET isDone = @isDone WHERE ID = @ID";
+            using var command = new SqliteCommand(query, _connection);
+            command.Parameters.AddWithValue("@isDone", intBool);
+            command.Parameters.AddWithValue("@ID", id);
+            command.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.ToString());
+            
+        }
+    }
     public static void ToArchiveProject(IProject project)
     {
         
