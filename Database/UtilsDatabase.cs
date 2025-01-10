@@ -8,7 +8,7 @@ namespace Canvas.Database;
 
 public static class UtilsDatabase
 {
-    private static Step FindStepByID(ObservableCollection<Step> legend, int? id)
+    public static Step FindStepByID(ObservableCollection<Step> legend, int? id)
     {
         Step result = new Step();
         foreach (var step in legend)
