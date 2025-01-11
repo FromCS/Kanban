@@ -23,29 +23,17 @@ public class NewProjectVM : INotifyPropertyChanged
     private LegendTemplate selectedTemplate;
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
-    private RelayCommand getFlatLegend;
     private ObservableCollection<IProject> _projects;
-
-
-    public RelayCommand GetFlatLegend
+    
+    private void SetTemplateLegendToForm(LegendTemplate template)
     {
-        get
+        Legend.Clear();
+        foreach (var step in template.Legend)
         {
-            return getFlatLegend ??= new RelayCommand(obj =>
-            {
-                try
-                {
-                    var coll = Utils.GetFlatSteps(Legend);
-                    coll.ToList().ForEach(step => MessageBox.Show(step.StepName));
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                }
-            });
+            step.ParentSteps = Legend;
+            Legend.Add(step);
         }
     }
-    
 
     public RelayCommand AddStepToTree
     {
@@ -99,12 +87,7 @@ public class NewProjectVM : INotifyPropertyChanged
 
     public ObservableCollection<LegendTemplate> Templates
     {
-        get
-        {
-            var databaseTemplates = new ObservableCollection<LegendTemplate>() { new LegendTemplate() {LegendName = "--Без шаблона--", Legend = new ObservableCollection<Step>()} };
-            TemplatesDatabase.GetLegendTemplates(ref databaseTemplates);
-            return databaseTemplates;
-        }
+        get => _templates;
         set
         {
             _templates = value;
@@ -117,11 +100,18 @@ public class NewProjectVM : INotifyPropertyChanged
         get => selectedTemplate;
         set
         {
+            if (selectedTemplate == null) // init window
+            {
+                selectedTemplate = value;
+                OnPropertyChanged("selectedTemplate");
+                return;
+            }
             LegendTemplate origValue = selectedTemplate;
             selectedTemplate = value;
-            if (MessageBox.Show(
-                    "При изменении шаблона текущая легенда будет аннулирована. Вы уверены, что хотите использовать другой шаблон?", "Подтверждение", MessageBoxButton.YesNo) ==
-                MessageBoxResult.No)
+            var answer = MessageBox.Show(
+                "При изменении шаблона текущая легенда будет аннулирована. Вы уверены, что хотите использовать другой шаблон?",
+                "Подтверждение", MessageBoxButton.YesNo);
+            if (answer == MessageBoxResult.No)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -130,12 +120,7 @@ public class NewProjectVM : INotifyPropertyChanged
                 }), DispatcherPriority.ContextIdle, null);
                 return;
             }
-            Legend.Clear();
-            foreach (var step in value.Legend)
-            {
-                step.ParentSteps = Legend;
-                Legend.Add(step);
-            }
+            SetTemplateLegendToForm(value);
             OnPropertyChanged("selectedTemplate");
         }
     }
@@ -160,18 +145,15 @@ public class NewProjectVM : INotifyPropertyChanged
     public NewProjectVM(ObservableCollection<IProject> projectsList)
     {
         _projects = projectsList;
+        var databaseTemplates = new ObservableCollection<LegendTemplate>
+        {
+            new LegendTemplate() {LegendName = "--Без шаблона--", Legend = new ObservableCollection<Step>()}
+        };
+        TemplatesDatabase.GetLegendTemplates(ref databaseTemplates);
+        Templates = databaseTemplates;
+        SelectedTemplate = Templates[0];
     }
     
-    // init for changes
-    public NewProjectVM(ObservableCollection<IProject> projectsList, IProject project)
-    {
-        _projects = projectsList;
-        ProjectName = project.Name;
-        WorkCategory = project.WorkCategory;
-        Legend = MainDatabase.GetProjectLegend(project.Name);
-        Priority = project.Priority;
-    }
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
