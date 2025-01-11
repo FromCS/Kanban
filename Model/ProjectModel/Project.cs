@@ -1,7 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
 using Canvas.Database;
+using Canvas.ViewModel;
+using Canvas.ViewModel.ProjectChanges;
+using Canvas.Windows;
+using Canvas.Windows.ChangesViews;
 
 namespace Canvas.Model.ProjectModel;
 
@@ -11,6 +18,7 @@ public class Project : IProject
     private string workCategory;
     private ObservableCollection<Step> steps;
     private string priority;
+    private RelayCommand openViewForChanges;
 
     public string Name
     {
@@ -55,6 +63,19 @@ public class Project : IProject
             priority = value;
             OnPropertyChanged("priority");
         }
+    }
+    public RelayCommand OpenViewForChanges
+    {
+        get => openViewForChanges ??= new RelayCommand(obj =>
+        {
+            var cont = obj as ListBox;
+            var projects = cont!.ItemsSource as ObservableCollection<IProject>;
+            var view = new ChangedProjectView()
+            {
+                DataContext = new ProjectChangesVM(projects, this)
+            };
+            view.ShowDialog();
+        });
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

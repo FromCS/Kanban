@@ -17,7 +17,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition MaxHeight="50"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ListBox Grid.Row="0" Margin="5" ItemsSource="{Binding Projects}">
+                    <ListBox Name="List" Grid.Row="0" Margin="5" ItemsSource="{Binding Projects}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -28,7 +28,9 @@
                                             Margin="150,0,0,0">
                                         <Button Background="Transparent"
                                                 Foreground="Peru"
-                                                BorderBrush="Transparent">Изменить</Button>
+                                                BorderBrush="Transparent"
+                                                Command="{Binding OpenViewForChanges}"
+                                                CommandParameter="{Binding ElementName=List}">Изменить</Button>
                                     </Border>
                                     
                                     <Border BorderThickness="0.5"
