@@ -9,7 +9,7 @@ public class ProjectWithStepsCategory : IProject
     private string name;
     private ObservableCollection<Step> steps;
     private string workCategory;
-    private TemplateStepsCategory _templateStepsCategory;
+    private LegendTemplate _templateStepsCategory;
     private string priority;
 
     public string Name
@@ -22,17 +22,17 @@ public class ProjectWithStepsCategory : IProject
         }
     }
 
-    public TemplateStepsCategory TemplateStepsCategory
+    public LegendTemplate TemplateStepsCategory
     {
         get => _templateStepsCategory;
         set => _templateStepsCategory = value;
     }
     public ObservableCollection<Step> Steps
     {
-        get => _templateStepsCategory.CategSteps;
+        get => _templateStepsCategory.Legend;
         set
         {
-            steps = TemplateStepsCategory.CategSteps;
+            steps = TemplateStepsCategory.Legend;
             OnPropertyChanged("CategSteps");
         }
     }
