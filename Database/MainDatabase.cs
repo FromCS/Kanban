@@ -111,6 +111,28 @@ public static class MainDatabase
             
         }
     }
+    public static ObservableCollection<string> GetCategories(ref ObservableCollection<string> categories)
+    {
+        _connection.Open();
+        string query = "SELECT * FROM 'Категории'";
+        using var command = new SqliteCommand(query, _connection);
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            string categoryName = reader.GetString(1);
+            categories.Add(categoryName);
+        }
+        return categories;
+    }
+
+    public static void AddNewCategory(string categoryName)
+    {
+        _connection.Open();
+        string query = $"INSERT INTO 'Категории' (Наименование) VALUES (@CategoryName)";
+        using var command = new SqliteCommand(query, _connection);
+        command.Parameters.AddWithValue("CategoryName", categoryName);
+        command.ExecuteNonQuery();
+    }
     public static void ToArchiveProject(IProject project)
     {
         

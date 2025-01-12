@@ -10,21 +10,27 @@ using System.Windows.Threading;
 using Canvas.Database;
 using Canvas.Model;
 using Canvas.Model.ProjectModel;
+using Canvas.ViewModel.Categories;
+using Canvas.Windows;
+using Canvas.Windows.CategoryView;
 
 namespace Canvas.ViewModel;
 
 public class NewProjectVM : INotifyPropertyChanged
 {
     private string projectName = null!;
-    private string workCategory = null!;
+    private ObservableCollection<string> categories = new ObservableCollection<string>();
+    private string selectedCategory = null!;
     private string priority = null!;
     private ObservableCollection<Step> _legend = new ObservableCollection<Step>();
     private ObservableCollection<LegendTemplate> _templates = new ObservableCollection<LegendTemplate>();
     private LegendTemplate selectedTemplate;
     private RelayCommand addNewProjectToDb;
     private RelayCommand addStepToTree;
+    private RelayCommand openNewCategoryView;
     private ObservableCollection<IProject> _projects;
-    
+    private RelayCommand openViewForRemovingCategory;
+
     private void SetTemplateLegendToForm(LegendTemplate template)
     {
         Legend.Clear();
@@ -55,13 +61,22 @@ public class NewProjectVM : INotifyPropertyChanged
         }
     }
 
-    public string WorkCategory
+    public ObservableCollection<string> Categories
     {
-        get => workCategory;
+        get => categories;
         set
         {
-            workCategory = value;
-            OnPropertyChanged("workCategory");
+            categories = value;
+            OnPropertyChanged("categories");
+        }
+    }
+    public string SelectedCategory
+    {
+        get => selectedCategory;
+        set
+        {
+            selectedCategory = value;
+            OnPropertyChanged("selectedCategory");
         }
     }
 
@@ -131,7 +146,7 @@ public class NewProjectVM : INotifyPropertyChanged
             return addNewProjectToDb ??= new RelayCommand(obj =>
             {
                 var currentProject = new Project()
-                    { Name = ProjectName, WorkCategory = WorkCategory, Priority = Priority };
+                    { Name = ProjectName, WorkCategory = SelectedCategory, Priority = Priority };
                 var rawLegend = Legend;
                 Utils.SetupCorrectID(ref rawLegend);
                 var legend = Utils.GetFlatSteps(rawLegend);
@@ -140,6 +155,25 @@ public class NewProjectVM : INotifyPropertyChanged
                 MainDatabase.AddProjectLegendTable(projectName, legend);
             });
         }
+    }
+
+    public RelayCommand OpenNewCategoryView
+    {
+        get => openNewCategoryView ??= new RelayCommand(obj =>
+        {
+            var view = new NewCategoryView{DataContext = new NewCategoryVM(Categories)};
+            view.ShowDialog();
+        });
+    }
+
+    public RelayCommand OpenViewForRemovingCategory
+    {
+        get => openViewForRemovingCategory ??= new RelayCommand(obj =>
+        {
+            var realCategories = new ObservableCollection<string>(Categories.Skip(1));
+            var view = new ViewForRemovingCategory { DataContext = new RemovingCategoryVM(realCategories, _projects) };
+            view.ShowDialog();
+        });
     }
 
     public NewProjectVM(ObservableCollection<IProject> projectsList)
@@ -152,6 +186,10 @@ public class NewProjectVM : INotifyPropertyChanged
         TemplatesDatabase.GetLegendTemplates(ref databaseTemplates);
         Templates = databaseTemplates;
         SelectedTemplate = Templates[0];
+        var databaseCategories = new ObservableCollection<string> { "Без категории" };
+        MainDatabase.GetCategories(ref databaseCategories);
+        Categories = databaseCategories;
+        SelectedCategory = databaseCategories[0];
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

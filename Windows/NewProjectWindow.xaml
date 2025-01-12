@@ -37,7 +37,21 @@
                 <TextBox Text="{Binding ProjectName, Mode=TwoWay}" Margin="0,5,0,0"></TextBox>
                 
                 <TextBlock Margin="0,5,0,0" Text="Категория работ"></TextBlock>
-                <TextBox Text="{Binding WorkCategory, Mode=TwoWay}" Margin="0,5,0,0"></TextBox>
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory}"
+                              Margin="0,5,0,0"
+                              Width="320"></ComboBox>
+                    <Button Margin="5,5,0,0"
+                            ToolTip="Добавить новую категорию"
+                            Width="20"
+                            Command="{Binding OpenNewCategoryView}">+</Button>
+                    <Button Margin="5,5,0,0"
+                            ToolTip="Добавить новую категорию"
+                            Width="20"
+                            Command="{Binding OpenViewForRemovingCategory}">-</Button>
+                </StackPanel>
+                
                 
                 <TextBlock Margin="0,5,0,0" Text="Приоритет"></TextBlock>
                 <ComboBox SelectedItem="{Binding Priority, Mode=TwoWay}" Margin="0,5,0,0">

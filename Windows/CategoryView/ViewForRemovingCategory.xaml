@@ -1,0 +1,29 @@
+<Window x:Class="Canvas.Windows.CategoryView.ViewForRemovingCategory"
+        Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Canvas.Windows.CategoryView"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="Удаление категорий" Height="250" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <ListBox Grid.Row="0"
+                 Margin="5"
+                 ItemsSource="{Binding Categories}"
+                 SelectedItem="{Binding SelectedCategory}"></ListBox>
+        
+        <StackPanel Grid.Row="1"
+                    Margin="5">
+            <Button Content="Удалить выбранную категорию"
+                    Command="{Binding RemoveSelectedCategory}"
+                    CommandParameter="{Binding ElementName=Window}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,23 @@
+<Window x:Class="Canvas.Windows.NewCategoryView"
+        Name="Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:Canvas.Windows"
+        mc:Ignorable="d"
+        Title="Новая категория" Height="200" Width="300">
+    <StackPanel>
+        <TextBlock Margin="5"
+                   Text="Наименование категории:"></TextBlock>
+        <TextBox Text="{Binding CategoryName}"
+                 Margin="5"></TextBox>
+        <StackPanel Orientation="Horizontal"
+                    Margin="5">
+            <Button Content="Добавить"
+                    Command="{Binding AddNewCategoryToDb}"
+                    CommandParameter="{Binding ElementName=Window}"></Button>
+        </StackPanel>
+    </StackPanel>
+</Window>
