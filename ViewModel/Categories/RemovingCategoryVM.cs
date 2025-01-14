@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using Canvas.Database;
 using Canvas.Model.ProjectModel;
 
 namespace Canvas.ViewModel.Categories;
@@ -17,7 +19,7 @@ public class RemovingCategoryVM : INotifyPropertyChanged
 
     public ObservableCollection<string> Categories
     {
-        get => categories;
+        get => new (categories.Skip(1));
         set
         {
             categories = value;
@@ -38,14 +40,27 @@ public class RemovingCategoryVM : INotifyPropertyChanged
     {
         get => removeSelectedCategory ??= new RelayCommand(obj =>
         {
+            if (SelectedCategory == null) return;
+            var answer = MessageBox.Show($"Вы уверены, что хотите удалить категорию \"{SelectedCategory}\"?", 
+                "Подтверждение удаления", MessageBoxButton.YesNo);
+            if (answer == MessageBoxResult.No) return;
             var window = obj as Window;
+            _projects.ToList().ForEach(project =>
+            {
+                if (project.WorkCategory == SelectedCategory)
+                {
+                    project.WorkCategory = "Без категории";
+                }
+            });
+            MainDatabase.RemoveCategory(SelectedCategory);
+            categories.Remove(SelectedCategory);
             window!.Close();
         });
     }
 
-    public RemovingCategoryVM(ObservableCollection<string> categories, ObservableCollection<IProject> projects)
+    public RemovingCategoryVM(ObservableCollection<string> categoriesList, ObservableCollection<IProject> projects)
     {
-        Categories = categories;
+        Categories = categoriesList;
         _projects = projects; // for updating project's work category -  when category is removed project will have category "Без категории"
     }
 

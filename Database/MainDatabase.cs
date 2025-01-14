@@ -133,6 +133,13 @@ public static class MainDatabase
         command.Parameters.AddWithValue("CategoryName", categoryName);
         command.ExecuteNonQuery();
     }
+    public static void RemoveCategory(string categoryName) // DO
+    {
+        _connection.Open();
+        string query = $"DELETE FROM 'Категории' WHERE Наименование='{categoryName}'";
+        using var command = new SqliteCommand(query, _connection);
+        command.ExecuteNonQuery();
+    }
     public static void ToArchiveProject(IProject project)
     {
         
