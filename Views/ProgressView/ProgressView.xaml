@@ -17,9 +17,15 @@
                     <RowDefinition></RowDefinition>
                     
                 </Grid.RowDefinitions>
-                <views:ProgressSelectedProjectView Grid.Row="0"></views:ProgressSelectedProjectView>
-                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="2" ShowsPreview="False"></GridSplitter>
-                <views:ProgressProjectsListView Grid.Row="2"></views:ProgressProjectsListView>
+                <Button Grid.Row="2" Height="30"
+                        Name="LegendViewButton"
+                        Width="30"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        Command="{Binding OpenAdditWindow}"
+                        CommandParameter="{Binding ElementName=LegendViewButton}">>>></Button>
+                
+                <views:ProgressProjectsListView Grid.Row="0"></views:ProgressProjectsListView>
             </Grid>
     </Grid>
 </UserControl>

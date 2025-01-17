@@ -17,11 +17,11 @@
     <Grid>
         <Border Background="#212529" CornerRadius="20"></Border>
         
-        <Grid>
+        <Grid Name="Grid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="228"></ColumnDefinition>
                 <ColumnDefinition Width="622"></ColumnDefinition>
-                
+                <ColumnDefinition Width="0"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             
             <uc:MenuView x:Name="MenuViewCont" Grid.Column="0"></uc:MenuView>
@@ -42,6 +42,7 @@
                     
                 </UserControl.Content>
             </UserControl>
+            <UserControl Grid.Column="2" x:Name="SelectedProjectView"></UserControl>
             
         </Grid>
     </Grid>
