@@ -28,7 +28,7 @@ public class ProgressVM : INotifyPropertyChanged
         {
             selectedProject = value;
             OnPropertyChanged("selectedProject");
-            _mainWindow.DataContext = selectedProject;
+            _mainWindow.SelectedProjectView.DataContext = selectedProject;
         }
     }
 
