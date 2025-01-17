@@ -17,31 +17,51 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition MaxHeight="50"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ListBox Name="List" Grid.Row="0" Margin="5" ItemsSource="{Binding Projects}">
+                    <ListBox Name="List" Grid.Row="0"
+                             Margin="5" ItemsSource="{Binding Projects}"
+                             Background="Transparent"
+                             Foreground="Azure"
+                             BorderBrush="Transparent">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}"></TextBlock>
-                                    <Border BorderThickness="0.5"
-                                            BorderBrush="Black"
-                                            CornerRadius="7"
-                                            Margin="150,0,0,0">
-                                        <Button Background="Transparent"
-                                                Foreground="Peru"
-                                                BorderBrush="Transparent"
-                                                Command="{Binding OpenViewForChanges}"
-                                                CommandParameter="{Binding ElementName=List}">Изменить</Button>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0"
+                                            BorderBrush="LightSkyBlue"
+                                            BorderThickness="0.3"
+                                            CornerRadius="4">
+                                        <TextBlock Text="{Binding Name}"
+                                                   TextWrapping="Wrap"
+                                                   Width="200"></TextBlock>    
                                     </Border>
                                     
-                                    <Border BorderThickness="0.5"
-                                            BorderBrush="Black"
-                                            CornerRadius="7"
-                                            Margin="10,0,0,0">
-                                        <Button Background="Transparent"
-                                                Foreground="Red"
-                                                BorderBrush="Transparent">Удалить</Button>
-                                    </Border>
-                                </StackPanel>
+                                    
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal">
+                                        <Border BorderThickness="0.5"
+                                                BorderBrush="Bisque"
+                                                CornerRadius="7"
+                                                Margin="150,0,0,0">
+                                            <Button Background="Transparent"
+                                                    Foreground="Peru"
+                                                    BorderBrush="Transparent"
+                                                    Command="{Binding OpenViewForChanges}"
+                                                    CommandParameter="{Binding ElementName=List}">Изменить</Button>
+                                        </Border>
+                                    
+                                        <Border BorderThickness="0.5"
+                                                BorderBrush="Beige"
+                                                CornerRadius="7"
+                                                Margin="10,0,0,0">
+                                            <Button Background="Transparent"
+                                                    Foreground="Red"
+                                                    BorderBrush="Transparent">Удалить</Button>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
