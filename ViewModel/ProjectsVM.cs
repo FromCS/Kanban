@@ -42,14 +42,7 @@ public class ProjectsVM : INotifyPropertyChanged
     
     public ProjectsVM()
     {
-        try
-        {
-            Projects = MainDatabase.GetAllProjects();
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.ToString());
-        }
+        Projects = MainDatabase.GetAllProjects();
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
