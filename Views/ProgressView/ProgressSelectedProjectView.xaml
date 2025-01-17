@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Foreground="Azure" Text="{Binding Name}"></TextBlock>
         
-        <TreeView Grid.Row="1" ItemsSource="{Binding Steps}">
+        <TreeView Grid.Row="1" ItemsSource="{Binding Legend}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Steps}">
                     <CheckBox Content="{Binding StepName}"

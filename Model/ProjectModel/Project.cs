@@ -16,7 +16,7 @@ public class Project : IProject
 {
     private string name;
     private string workCategory;
-    private ObservableCollection<Step> steps;
+    private ObservableCollection<Step> legend;
     private string priority;
     private RelayCommand openViewForChanges;
 
@@ -40,17 +40,17 @@ public class Project : IProject
         }
     }
     
-    public ObservableCollection<Step> Steps
+    public ObservableCollection<Step> Legend
     {
         get
         {
-            steps = MainDatabase.GetProjectLegend(name);
-            return steps;
+            legend = MainDatabase.GetProjectLegend(name);
+            return legend;
         } 
         set
         {
-            steps = value;
-            OnPropertyChanged("steps");
+            legend = value;
+            OnPropertyChanged("legend");
         }
     }
 
