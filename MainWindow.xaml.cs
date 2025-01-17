@@ -26,8 +26,6 @@ namespace Canvas
         {
             InitializeComponent();
             MenuViewCont.DataContext = new ApplicationVM();
-            DataContext = new ProgressVM();
-                      
         }
     }
 }
