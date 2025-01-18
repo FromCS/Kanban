@@ -15,7 +15,10 @@ public static class UtilsDatabase
         foreach (var step in legend)
         {
             if (step.ID == id) return step;
-            if (step.Steps.Count > 0) return FindStepByID(step.Steps, id);
+            if (step.Steps.Count > 0)
+            {
+                result = FindStepByID(step.Steps, id);
+            }
         }
         return result;
     }
