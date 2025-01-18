@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -8,17 +9,13 @@ namespace Canvas.Database;
 
 public static class UtilsDatabase
 {
-    public static Step FindStepByID(ObservableCollection<Step> legend, int? id)
+    public static Step FindStepByID(ObservableCollection<Step> legend, int? id) // ошибка здесь
     {
         Step result = new Step();
         foreach (var step in legend)
         {
-            if (step.ID == id)
-            {
-                result = step;
-                break;
-            }
-            FindStepByID(step.Steps, id);
+            if (step.ID == id) return step;
+            if (step.Steps.Count > 0) return FindStepByID(step.Steps, id);
         }
         return result;
     }
