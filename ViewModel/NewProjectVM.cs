@@ -145,6 +145,7 @@ public class NewProjectVM : INotifyPropertyChanged
         {
             return addNewProjectToDb ??= new RelayCommand(obj =>
             {
+                if (!CanExecute()) return;
                 var currentProject = new Project()
                     { Name = ProjectName, WorkCategory = SelectedCategory, Priority = Priority };
                 var rawLegend = Legend;
@@ -153,6 +154,8 @@ public class NewProjectVM : INotifyPropertyChanged
                 MainDatabase.AddNewProject(currentProject);
                 _projects.Add(currentProject);
                 MainDatabase.AddProjectLegendTable(projectName, legend);
+                MessageBox.Show($"Проект \"{projectName}\" успешно добавлен!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                (obj as Window)!.Close();
             });
         }
     }
@@ -189,6 +192,23 @@ public class NewProjectVM : INotifyPropertyChanged
         MainDatabase.GetCategories(ref databaseCategories);
         Categories = databaseCategories;
         SelectedCategory = databaseCategories[0];
+        
+    }
+
+    private bool CanExecute()
+    {
+        if (ProjectName == null)
+        {
+            MessageBox.Show("Вы не ввели наименование проекта. Создание проекта отменено", "Отмена", MessageBoxButton.OK, MessageBoxImage.Information);
+            return false;
+        }
+        if (Legend.Count < 1)
+        {
+            var answer = MessageBox.Show("Легенда выполнения проекта пуста. Хотите продолжить?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            return answer == MessageBoxResult.Yes;
+        }
+
+        return true;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
