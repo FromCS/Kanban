@@ -42,7 +42,7 @@
                     
                 </UserControl.Content>
             </UserControl>
-            <UserControl Grid.Column="2" x:Name="SelectedProjectView"></UserControl>
+            <UserControl Grid.Column="2" x:Name="SelectedProjectView" Margin="10"></UserControl>
             
         </Grid>
     </Grid>
