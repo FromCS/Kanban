@@ -14,6 +14,7 @@ public class NewLegendTemplateVM : INotifyPropertyChanged
     private string templateName;
     private RelayCommand addStepToTree;
     private RelayCommand addTemplateToDb;
+    private ObservableCollection<LegendTemplate> _templates;
 
     public ObservableCollection<Step> Legend
     {
@@ -51,10 +52,15 @@ public class NewLegendTemplateVM : INotifyPropertyChanged
         get => addTemplateToDb ??= new RelayCommand(obj =>
         {
             var rawLegend = Legend;
+            _templates.Add(new LegendTemplate {LegendName = TemplateName, Legend = rawLegend});
             Utils.SetupCorrectID(ref rawLegend);
             var cleanLegend = Utils.GetFlatSteps(rawLegend);
-            TemplatesDatabase.AddLegendTemplateTable(templateName, cleanLegend);
+            TemplatesDatabase.AddLegendTemplateTable(TemplateName, cleanLegend);
         });
+    }
+    public NewLegendTemplateVM(ObservableCollection<LegendTemplate> templates)
+    {
+        _templates = templates;
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

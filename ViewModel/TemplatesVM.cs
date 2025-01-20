@@ -32,7 +32,7 @@ public class TemplatesVM : INotifyPropertyChanged
             {
                 var window = new NewLegendTemplateWindow()
                 {
-                    DataContext = new NewLegendTemplateVM()
+                    DataContext = new NewLegendTemplateVM(Templates)
                 };
                 window.ShowDialog();
             });
