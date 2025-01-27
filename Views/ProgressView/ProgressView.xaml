@@ -8,16 +8,15 @@
              mc:Ignorable="d"
              Background="Transparent"
              Foreground="Azure"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="600">
     <Grid>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition MaxHeight="350" MinHeight="200" Height="200"></RowDefinition>
-                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition MaxHeight="600" Height="480"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     
                 </Grid.RowDefinitions>
-                <Button Grid.Row="2" Height="30"
+                <Button Grid.Row="1" Height="30"
                         Name="LegendViewButton"
                         Width="30"
                         VerticalAlignment="Top"
