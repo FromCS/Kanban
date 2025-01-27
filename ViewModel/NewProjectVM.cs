@@ -30,6 +30,7 @@ public class NewProjectVM : INotifyPropertyChanged
     private RelayCommand openNewCategoryView;
     private ObservableCollection<IProject> _projects;
     private RelayCommand openViewForRemovingCategory;
+    private ObservableCollection<IProject> _progressProjects;
 
     private void SetTemplateLegendToForm(LegendTemplate template)
     {
@@ -153,6 +154,7 @@ public class NewProjectVM : INotifyPropertyChanged
                 var legend = Utils.GetFlatSteps(rawLegend);
                 MainDatabase.AddNewProject(currentProject);
                 _projects.Add(currentProject);
+                _progressProjects.Add(currentProject);
                 MainDatabase.AddProjectLegendTable(projectName, legend);
                 MessageBox.Show($"Проект \"{projectName}\" успешно добавлен!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 (obj as Window)!.Close();
@@ -178,9 +180,10 @@ public class NewProjectVM : INotifyPropertyChanged
         });
     }
 
-    public NewProjectVM(ObservableCollection<IProject> projectsList)
+    public NewProjectVM(ObservableCollection<IProject> projectsList, ObservableCollection<IProject> progressProjects)
     {
         _projects = projectsList;
+        _progressProjects = progressProjects;
         var databaseTemplates = new ObservableCollection<LegendTemplate>
         {
             new LegendTemplate() {LegendName = "--Без шаблона--", Legend = new ObservableCollection<Step>()}

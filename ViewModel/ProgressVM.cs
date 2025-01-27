@@ -18,8 +18,17 @@ public class ProgressVM : INotifyPropertyChanged
     private MainWindow _mainWindow;
     private RelayCommand openAdditWindow;
     private bool _isAdditWindowOpen;
+    private ObservableCollection<IProject> _projects;
 
-    public ObservableCollection<IProject> Projects { get; set; } = null!;
+    public ObservableCollection<IProject> Projects
+    {
+        get => _projects;
+        set
+        {
+            _projects = value;
+            OnPropertyChanged("_projects");
+        }
+    }
 
     public IProject SelectedProject
     {

@@ -75,7 +75,7 @@ public class ApplicationVM : INotifyPropertyChanged
     {
         MainWindow = Application.Current.MainWindow as MainWindow;
         progressView = new ProgressView { DataContext = new ProgressVM(MainWindow) };
-        projectsView = new CommonProjectsListView { DataContext = new ProjectsVM() };
+        projectsView = new CommonProjectsListView { DataContext = new ProjectsVM((progressView.DataContext as ProgressVM)!.Projects) };
         templatesView = new TemplatesView { DataContext = new TemplatesVM() };
         settingsView = new SettingsView { DataContext = new SettingsVM() };
     }

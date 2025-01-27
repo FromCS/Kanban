@@ -14,6 +14,7 @@ public class ProjectsVM : INotifyPropertyChanged
 {
     private ObservableCollection<IProject> projects = null!;
     private RelayCommand addNewProject;
+    private ObservableCollection<IProject> _progress;
 
     public ObservableCollection<IProject> Projects
     {
@@ -33,16 +34,17 @@ public class ProjectsVM : INotifyPropertyChanged
             {
                 var window = new NewProjectWindow
                 {
-                    DataContext = new NewProjectVM(Projects)
+                    DataContext = new NewProjectVM(Projects, _progress)
                 };
                 window.Show();
             });
         }
     }
     
-    public ProjectsVM()
+    public ProjectsVM(ObservableCollection<IProject> progressProjects)
     {
         Projects = MainDatabase.GetAllProjects();
+        _progress = progressProjects;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
