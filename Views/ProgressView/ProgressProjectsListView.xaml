@@ -12,10 +12,10 @@
             <!-->List headers<!-->            
             <Grid Margin="5" Width="600">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
                     <ColumnDefinition Width="70"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock TextWrapping="Wrap" Grid.Column="0">Наименование</TextBlock>
@@ -26,20 +26,24 @@
             
             <!-->Projects list<!-->
             <ListBox Margin="5" Foreground="Azure" BorderBrush="Azure" Background="Transparent" 
-                     ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}" MaxHeight="250">
+                     ItemsSource="{Binding Projects}" SelectedItem="{Binding SelectedProject}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" TextWrapping="Wrap" Text="{Binding Path=Name}"></TextBlock>
-                            <TextBlock Grid.Column="1">15%</TextBlock>
-                            <TextBlock MaxWidth="120" TextWrapping="Wrap" Grid.Column="2">Закупка материалов</TextBlock>
-                            <TextBlock Grid.Column="3" Text="{Binding Priority}" Margin="55,0,0,0"></TextBlock>
+                            <TextBlock Grid.Column="0" TextWrapping="Wrap" Text="{Binding Path=Name}"
+                                       Margin="5"></TextBlock>
+                            <TextBlock Grid.Column="1" Text="{Binding ProgressValue}" 
+                                       VerticalAlignment="Center" Margin="15,5,5,5"/>
+                            <TextBlock MaxWidth="120" TextWrapping="Wrap" Grid.Column="2" 
+                                       VerticalAlignment="Center" Margin="5">Закупка материалов</TextBlock>
+                            <TextBlock Grid.Column="3" Text="{Binding Priority}" Margin="55,0,0,0"
+                                       VerticalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

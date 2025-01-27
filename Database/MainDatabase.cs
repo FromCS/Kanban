@@ -140,6 +140,26 @@ public static class MainDatabase
         using var command = new SqliteCommand(query, _connection);
         command.ExecuteNonQuery();
     }
+    public static double GetProgressValue(string projectName)
+    {
+        double finishedStepsCount = 0;
+        double stepsCount = 0;
+        _connection.Open();
+        string legendName = projectName + "Legend";
+        string sqlRequest = $"SELECT * FROM '{legendName}'";
+        using var command = new SqliteCommand(sqlRequest, _connection);
+        using var reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+            stepsCount += 1;
+            bool isDone = reader.GetInt32(3) == 0 ? false : true;
+            if (isDone)
+            {
+                finishedStepsCount += 1; 
+            }
+        }
+        return finishedStepsCount / stepsCount;
+    }
     public static void ToArchiveProject(IProject project)
     {
         

@@ -18,6 +18,7 @@ public class Project : IProject
     private string workCategory;
     private ObservableCollection<Step> legend;
     private string priority;
+    private string progressValue;
     private RelayCommand openViewForChanges;
 
     public string Name
@@ -54,6 +55,20 @@ public class Project : IProject
         }
     }
 
+    public string ProgressValue
+    {
+        get
+        {
+            double value = Math.Round(MainDatabase.GetProgressValue(name) * 100);
+            progressValue = $"{value}%"; 
+            return progressValue;
+        }
+        set
+        {
+            progressValue = value;
+            OnPropertyChanged("progressValue");
+        }
+    }
 
     public string Priority
     {
