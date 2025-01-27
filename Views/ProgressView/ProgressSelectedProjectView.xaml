@@ -12,17 +12,64 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="Azure" Text="{Binding Name}"></TextBlock>
-        
-        <TreeView Grid.Row="1" ItemsSource="{Binding Legend}">
+        <TextBlock Grid.Row="0" Foreground="Azure" FontFamily="Arial" Text="{Binding Name}" FontSize="18"
+                   TextWrapping="Wrap"></TextBlock>
+        <GroupBox Grid.Row="1" Header="Этапы выполнения"
+                  Foreground="Azure"
+                  BorderThickness="0.5"
+                  BorderBrush="Bisque">
+            <TreeView Background="Transparent" Foreground="Azure" BorderThickness="0" ItemsSource="{Binding Legend}">
+            <TreeView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" Width="890"/>
+                </ItemsPanelTemplate>
+            </TreeView.ItemsPanel>
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Steps}">
-                    <CheckBox Content="{Binding StepName}"
-                              IsChecked="{Binding IsDone, Mode=TwoWay}"
-                              Command="{Binding SetIsDone}"
-                              CommandParameter="{Binding ElementName=Container}"/>
-                </HierarchicalDataTemplate>
+                <DataTemplate>
+                    <!--> Первичные этапы <!-->
+                    <Border BorderBrush="Bisque" BorderThickness="1"
+                            Background="DimGray"
+                            CornerRadius="3"
+                            Width="265" Height="180"
+                            Margin="0,5,0,5">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="0,5,0,5">
+                                <CheckBox 
+                                    IsChecked="{Binding IsDone, Mode=TwoWay}"
+                                    Foreground="Cornsilk"
+                                    Command="{Binding SetIsDone}"
+                                    CommandParameter="{Binding ElementName=Container}">
+                                    <CheckBox.Content>
+                                        <TextBlock Text="{Binding StepName}" Width="200" TextWrapping="Wrap"></TextBlock>
+                                    </CheckBox.Content>
+                                </CheckBox>
+                                <!--> Последующие этапы <!-->
+                                <TreeView ItemsSource="{Binding Steps}" BorderBrush="Transparent" Background="Transparent">
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Steps}">
+                                            <CheckBox IsChecked="{Binding IsDone, Mode=TwoWay}"
+                                                      VerticalAlignment="Top"
+                                                      Foreground="Cornsilk"
+                                                      Command="{Binding SetIsDone}"
+                                                      CommandParameter="{Binding ElementName=Container}"
+                                                      Margin="5,3,0,3">
+                                                <CheckBox.Content>
+                                                    <TextBlock Text="{Binding StepName}" Width="185" TextWrapping="Wrap"
+                                                               VerticalAlignment="Top"></TextBlock>
+                                                </CheckBox.Content>
+                                            </CheckBox>
+                                            
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+                            </StackPanel>
+                        </ScrollViewer>
+                        
+                    </Border>
+                </DataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
+        </GroupBox>
+        
     </Grid>
 </UserControl>
