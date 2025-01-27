@@ -42,8 +42,10 @@ public class ProgressVM : INotifyPropertyChanged
             {
                 button!.Content = "<<<";
                 _mainWindow.DataContext = SelectedProject;
-                _mainWindow.Width = 1100;
-                _mainWindow.Grid.ColumnDefinitions.Last().Width = new GridLength(250);
+                _mainWindow.Width = 1350;
+                _mainWindow.Grid.ColumnDefinitions.Last().Width = new GridLength(911);
+                _mainWindow.Grid.ColumnDefinitions[0].Width = new GridLength(128);
+                _mainWindow.Grid.ColumnDefinitions[1].Width = new GridLength(311);
                 _isAdditWindowOpen = true;
                 AnimationUtils.OffsetMainWindowToLeftWithAnimation(_mainWindow);
             }
@@ -53,6 +55,8 @@ public class ProgressVM : INotifyPropertyChanged
                 _mainWindow.Width = 850;
                 _isAdditWindowOpen = false;
                 _mainWindow.Grid.ColumnDefinitions.Last().Width = new GridLength(0);
+                _mainWindow.Grid.ColumnDefinitions[0].Width = new GridLength(228);
+                _mainWindow.Grid.ColumnDefinitions[1].Width = new GridLength(622);
                 AnimationUtils.OffsetMainWindowToRightWithAnimation(_mainWindow);
             }
         });

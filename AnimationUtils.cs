@@ -28,6 +28,8 @@ public static class AnimationUtils
             OffsetMainWindowToRightWithAnimation(mainWindow);
         }
         mainWindow.Grid.ColumnDefinitions.Last().Width = new GridLength(0);
+        mainWindow.Grid.ColumnDefinitions[0].Width = new GridLength(228);
+        mainWindow.Grid.ColumnDefinitions[1].Width = new GridLength(622);
         mainWindow.Width = 850;
         
     }
