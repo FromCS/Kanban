@@ -97,8 +97,9 @@ public class Step : INotifyPropertyChanged
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                IProject? project = (IProject)(obj as Grid)!.DataContext;
+                Project? project = (Project)(obj as Grid)!.DataContext;
                 MainDatabase.InsertIsDoneForLegendStepByID(project.Name, this.ID, IsDone);
+                project.ProgressValue = project.ProgressValue; // update view of progress value
             }), DispatcherPriority.ContextIdle, null);
         });
     }
