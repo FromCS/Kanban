@@ -175,7 +175,7 @@ public class NewProjectVM : INotifyPropertyChanged
     {
         get => openViewForRemovingCategory ??= new RelayCommand(obj =>
         {
-            var view = new ViewForRemovingCategory { DataContext = new RemovingCategoryVM(Categories, _projects) };
+            var view = new ViewForRemovingCategory { DataContext = new RemovingCategoryVM(Categories, _projects, _progressProjects) };
             view.ShowDialog();
         });
     }
