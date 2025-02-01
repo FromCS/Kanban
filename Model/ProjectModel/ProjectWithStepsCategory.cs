@@ -7,6 +7,7 @@ namespace Canvas.Model.ProjectModel;
 public class ProjectWithStepsCategory : IProject
 {
     private string name;
+    private int id;
     private ObservableCollection<Step> steps;
     private string workCategory;
     private LegendTemplate _templateStepsCategory;
@@ -36,6 +37,17 @@ public class ProjectWithStepsCategory : IProject
             OnPropertyChanged("CategSteps");
         }
     }
+
+    public int ID
+    {
+        get => id;
+        set
+        {
+            id = value;
+            OnPropertyChanged("id");
+        }
+    }
+
     public string WorkCategory
     {
         get => workCategory;

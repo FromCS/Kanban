@@ -15,6 +15,7 @@ namespace Canvas.Model.ProjectModel;
 public class Project : IProject
 {
     private string name;
+    private int id;
     private string workCategory;
     private ObservableCollection<Step> legend;
     private string priority;
@@ -28,6 +29,15 @@ public class Project : IProject
         {
             name = value;
             OnPropertyChanged("name");
+        }
+    }
+    public int ID
+    {
+        get => id;
+        set
+        {
+            id = value;
+            OnPropertyChanged("id");
         }
     }
 
