@@ -24,10 +24,11 @@ public static class MainDatabase
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
+            int id = reader.GetInt32(0);
             string projectName = reader.GetString(1);
             string category = reader.GetString(2);
             string priority = reader.GetString(3);
-            projects.Add(new Project() {Name = projectName, WorkCategory = category, Priority = priority});
+            projects.Add(new Project() {ID = id, Name = projectName, WorkCategory = category, Priority = priority});
         }
         return projects;
     }
