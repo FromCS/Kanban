@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Threading;
 using Canvas.Views;
 using Canvas.Views.ProgressView;
 using Canvas.Views.ProjectsView;
@@ -23,7 +25,15 @@ public class ApplicationVM : INotifyPropertyChanged
     private void OpenProgressView()
     {
         selectedProgressView = new ProgressSelectedProjectView();
-        MainWindow!.CurrentPage.Content = progressView;
+        (progressView.DataContext as ProgressVM).Projects.Clear();
+        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            (projectsView.DataContext as ProjectsVM)!.Projects.ToList().ForEach(project =>
+            {
+                (progressView.DataContext as ProgressVM).Projects.Add(project);
+            });
+        }), DispatcherPriority.ContextIdle);
+        MainWindow.CurrentPage.Content = progressView;
         MainWindow.SelectedProjectView.Content = selectedProgressView;
     }
 
@@ -75,7 +85,7 @@ public class ApplicationVM : INotifyPropertyChanged
     {
         MainWindow = Application.Current.MainWindow as MainWindow;
         progressView = new ProgressView { DataContext = new ProgressVM(MainWindow) };
-        projectsView = new CommonProjectsListView { DataContext = new ProjectsVM((progressView.DataContext as ProgressVM)!.Projects) };
+        projectsView = new CommonProjectsListView { DataContext = new ProjectsVM() };
         templatesView = new TemplatesView { DataContext = new TemplatesVM() };
         settingsView = new SettingsView { DataContext = new SettingsVM() };
     }

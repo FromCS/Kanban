@@ -34,17 +34,16 @@ public class ProjectsVM : INotifyPropertyChanged
             {
                 var window = new NewProjectWindow
                 {
-                    DataContext = new NewProjectVM(Projects, _progress)
+                    DataContext = new NewProjectVM(Projects)
                 };
                 window.Show();
             });
         }
     }
     
-    public ProjectsVM(ObservableCollection<IProject> progressProjects)
+    public ProjectsVM()
     {
         Projects = MainDatabase.GetAllProjects();
-        _progress = progressProjects;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;
