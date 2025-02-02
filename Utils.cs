@@ -8,40 +8,31 @@ namespace Canvas;
 
 public static class Utils
 {
-    public static void SetupCorrectID(ref ObservableCollection<Step> legend)
+    private static void SetupCorrectID(ref ObservableCollection<Step> legend)
     {
-        try
+        int idNumber = 1;
+
+        void Iter(ObservableCollection<Step> steps, int parentID)
         {
-            int idNumber = 1;
-
-            void Iter(ObservableCollection<Step> steps, int parentID)
+            foreach (var step in steps)
             {
-                foreach (var step in steps)
+                step.ID = idNumber;
+                idNumber += 1;
+                if (step.ParentId != null)
                 {
-                    MessageBox.Show(step.StepName + "  " + idNumber);
-                    step.ID = idNumber;
-                    idNumber += 1;
-                    if (step.ParentId != null)
-                    {
-                        step.ParentId = parentID;
-                    }
+                    step.ParentId = parentID;
+                }
 
-                    if (step.Steps.Count > 0)
-                    {
-                        Iter(step.Steps, step.ID);    
-                    }
-                    
+                if (step.Steps.Count > 0)
+                {
+                    Iter(step.Steps, step.ID);    
                 }
             }
-            Iter(legend, 0);
         }
-        catch (Exception e)
-        {
-            MessageBox.Show(e.ToString());
-        }
+        Iter(legend, 0);
     }
     
-    public static ObservableCollection<Step> GetFlatSteps(ObservableCollection<Step> steps)
+    private static ObservableCollection<Step> GetFlatSteps(ObservableCollection<Step> steps)
     {
         ObservableCollection<Step> flatSteps = new ObservableCollection<Step>();
         if (steps.Count < 1) return flatSteps;
@@ -52,5 +43,12 @@ public static class Utils
             nestedSteps.ToList().ForEach(nestedStep => flatSteps.Add(nestedStep));
         }    
         return flatSteps;
+    }
+    public static ObservableCollection<Step> GetParsedLegend(ObservableCollection<Step> legend)
+    {
+        var _legend = legend;
+        SetupCorrectID(ref _legend);
+        var parsedLegend = GetFlatSteps(_legend);
+        return parsedLegend;
     }
 }

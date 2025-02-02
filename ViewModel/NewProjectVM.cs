@@ -148,11 +148,9 @@ public class NewProjectVM : INotifyPropertyChanged
                 if (!CanExecute()) return;
                 var currentProject = new Project()
                     { Name = ProjectName, WorkCategory = SelectedCategory, Priority = Priority };
-                var rawLegend = Legend;
-                Utils.SetupCorrectID(ref rawLegend);
-                var legend = Utils.GetFlatSteps(rawLegend);
+                var legend = Utils.GetParsedLegend(Legend);
                 MainDatabase.AddNewProject(currentProject);
-                _projects.Add(currentProject);
+                _projects.Add(currentProject); // updating projects' list on page
                 MainDatabase.AddProjectLegendTable(projectName, legend);
                 MessageBox.Show($"Проект \"{projectName}\" успешно добавлен!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 (obj as Window)!.Close();

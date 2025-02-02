@@ -53,8 +53,7 @@ public class NewLegendTemplateVM : INotifyPropertyChanged
         {
             var rawLegend = Legend;
             _templates.Add(new LegendTemplate {LegendName = TemplateName, Legend = rawLegend});
-            Utils.SetupCorrectID(ref rawLegend);
-            var cleanLegend = Utils.GetFlatSteps(rawLegend);
+            var cleanLegend = Utils.GetParsedLegend(Legend);
             TemplatesDatabase.AddLegendTemplateTable(TemplateName, cleanLegend);
         });
     }

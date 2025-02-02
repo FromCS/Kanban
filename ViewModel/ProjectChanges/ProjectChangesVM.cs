@@ -152,12 +152,10 @@ public class ProjectChangesVM : INotifyPropertyChanged
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    var newLegend = Legend;
-                    Utils.SetupCorrectID(ref newLegend);
-                    newLegend = Utils.GetFlatSteps(newLegend);
+                    var newLegend = Utils.GetParsedLegend(Legend);
                     var newProject = new Project
                         { Name = ProjectName, Priority = Priority, ID = _project.ID, WorkCategory = WorkCategory };
-                    _projects[_projects.IndexOf(_project)] = newProject; 
+                    _projects[_projects.IndexOf(_project)] = newProject; // updating projects' list on page
                     MainDatabase.MakeChangesForProject(newProject, _project, newLegend);
                     MessageBox.Show("Изменение выполнено успешно!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     (obj as Window).Close();
