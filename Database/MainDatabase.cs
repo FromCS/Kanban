@@ -161,6 +161,33 @@ public static class MainDatabase
         }
         return finishedStepsCount / stepsCount;
     }
+    public static void MakeChangesForProject(IProject project, IProject oldProject,
+        ObservableCollection<Step> newLegend)
+    {
+        _connection.Open();
+        try
+        {
+            string query = $"UPDATE 'Проекты' SET 'Наименование' = @projectName, 'Категория' = @category, 'Приоритет' = @priority WHERE ID = @ID";
+            var command = new SqliteCommand(query, _connection);
+            command.Parameters.AddWithValue("@projectName", project.Name);
+            command.Parameters.AddWithValue("@category", project.WorkCategory);
+            command.Parameters.AddWithValue("@priority", project.Priority);
+            command.Parameters.AddWithValue("@ID", project.ID);
+            command.ExecuteNonQuery();
+
+            string queryRemoveOldLegend = $"DROP Table '{oldProject.Name}Legend'";
+            var removeTableCommand = new SqliteCommand(queryRemoveOldLegend, _connection);
+            removeTableCommand.ExecuteNonQuery();
+            AddProjectLegendTable(project.Name, newLegend);
+
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(e.ToString());
+
+        }
+        
+    }
     public static void ToArchiveProject(IProject project)
     {
         

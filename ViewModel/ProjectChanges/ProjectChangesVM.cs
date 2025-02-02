@@ -15,6 +15,7 @@ namespace Canvas.ViewModel.ProjectChanges;
 public class ProjectChangesVM : INotifyPropertyChanged
 {
     private string projectName = null!;
+    private IProject _project;
     private string workCategory = null!;
     private string priority = null!;
     private ObservableCollection<Step> _legend = new ObservableCollection<Step>();
@@ -149,6 +150,18 @@ public class ProjectChangesVM : INotifyPropertyChanged
         {
             return makeChanges ??= new RelayCommand(obj =>
             {
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    var newLegend = Legend;
+                    Utils.SetupCorrectID(ref newLegend);
+                    newLegend = Utils.GetFlatSteps(newLegend);
+                    var newProject = new Project
+                        { Name = ProjectName, Priority = Priority, ID = _project.ID, WorkCategory = WorkCategory };
+                    _projects[_projects.IndexOf(_project)] = newProject; 
+                    MainDatabase.MakeChangesForProject(newProject, _project, newLegend);
+                    MessageBox.Show("Изменение выполнено успешно!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    (obj as Window).Close();
+                }), DispatcherPriority.ContextIdle);
             });
         }
     }
@@ -156,6 +169,7 @@ public class ProjectChangesVM : INotifyPropertyChanged
     public ProjectChangesVM(ObservableCollection<IProject> projectsList, IProject? project)
     {
         _projects = projectsList;
+        _project = project;
         ProjectName = project!.Name;
         WorkCategory = project.WorkCategory;
         Legend = MainDatabase.GetProjectLegend(project.Name);
